@@ -1,36 +1,37 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class LexApp extends StatefulWidget {
-  const LexApp({super.key});
+class LexSplashScreen extends StatefulWidget {
+  const LexSplashScreen({super.key});
 
   @override
-  State<LexApp> createState() => _LexAppState();
+  State<LexSplashScreen> createState() => _LexSplashScreenState();
 }
 
-class _LexAppState extends State<LexApp> with TickerProviderStateMixin {
+class _LexSplashScreenState extends State<LexSplashScreen>
+    with TickerProviderStateMixin {
   bool loading = true;
-  late AnimationController _iconController;
-  late AnimationController _fadeController;
+  late final AnimationController _iconController;
+  late final AnimationController _fadeController;
 
   @override
   void initState() {
     super.initState();
 
-    // Fake loading (3 seconds)
-    Timer(const Duration(seconds: 3), () {
-      setState(() {
-        loading = false;
-      });
+    // ⏳ Simulate loading time
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) setState(() => loading = false);
+      // 🔁 Optionally navigate to next screen here
+      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
     });
 
-    // Main Icon animation (scale + rotate)
+    // 🎬 Initialize animations
     _iconController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
     )..forward();
 
-    // Fade-in elements
     _fadeController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
@@ -46,57 +47,63 @@ class _LexAppState extends State<LexApp> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    const gradientColors = [
+      Color(0xFF0F172A),
+      Color(0xFF1E293B),
+      Color(0xFF0F172A)
+    ];
+
     return Scaffold(
       body: Container(
-        height: double.infinity,
-        width: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF0F172A), Color(0xFF1E293B), Color(0xFF0F172A)],
+            colors: gradientColors,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
         child: Stack(
           children: [
-            // 🖼 Background Image
-            Opacity(
-              opacity: 0.2,
-              child: Image.network(
-                'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80',
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-              ),
-            ),
-
-            // 🟠 Gradient overlay
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Color(0xCC0F172A),
-                    Color(0xFF0F172A)
-                  ],
+            // 🖼 Background image (low opacity)
+            Positioned.fill(
+              child: Opacity(
+                opacity: 0.2,
+                child: Image.network(
+                  'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80',
+                  fit: BoxFit.cover,
+                  filterQuality: FilterQuality.low, // ⚡️ Better performance
                 ),
               ),
             ),
 
-            // 🌟 Main content
+            // 🟠 Overlay gradient for depth
+            const Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Color(0xCC0F172A),
+                      Color(0xFF0F172A)
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Top icons
+                  // 🔰 Top icons
                   FadeTransition(
                     opacity: _fadeController,
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Icon(Icons.shield_outlined,
                             color: Color(0x4DFFB703), size: 28),
                         SizedBox(width: 16),
@@ -106,7 +113,7 @@ class _LexAppState extends State<LexApp> with TickerProviderStateMixin {
                     ),
                   ),
 
-                  // Center logo and title
+                  // ⚖️ Logo and title
                   Expanded(
                     child: Center(
                       child: Column(
@@ -114,29 +121,29 @@ class _LexAppState extends State<LexApp> with TickerProviderStateMixin {
                         children: [
                           ScaleTransition(
                             scale: CurvedAnimation(
-                                parent: _iconController,
-                                curve: Curves.elasticOut),
+                              parent: _iconController,
+                              curve: Curves.elasticOut,
+                            ),
                             child: RotationTransition(
                               turns: Tween<double>(begin: -0.5, end: 0)
                                   .animate(_iconController),
                               child: Stack(
                                 alignment: Alignment.center,
                                 children: [
-                                  // Glow
+                                  // ✨ Glow effect
                                   Container(
                                     width: 140,
                                     height: 140,
                                     decoration: BoxDecoration(
                                       color: const Color(0x33FFB703),
                                       borderRadius: BorderRadius.circular(100),
-                                      // blurRadius: 60,
                                     ),
                                   ),
-                                  // Icon background
+                                  // 🖼 Logo Container (Background)
                                   Container(
-                                    padding: const EdgeInsets.all(32),
-                                    decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
+                                    padding: const EdgeInsets.all(1),
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
                                         colors: [
                                           Color(0xFFFFB703),
                                           Color(0xFFFFA000)
@@ -144,25 +151,37 @@ class _LexAppState extends State<LexApp> with TickerProviderStateMixin {
                                         begin: Alignment.topLeft,
                                         end: Alignment.bottomRight,
                                       ),
-                                      borderRadius: BorderRadius.circular(100),
-                                      boxShadow: const [
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black38,
-                                          blurRadius: 16,
+                                          color: Colors.black45,
+                                          blurRadius: 20,
+                                          spreadRadius: 2,
                                         )
                                       ],
                                     ),
-                                    child: const Icon(
-                                      Icons.scale_outlined,
-                                      size: 80,
-                                      color: Color(0xFF0F172A),
+                                    child: Center(
+                                      // 🎨 Separated SVG Logo
+                                      child: SvgPicture.asset(
+                                        'assets/images/logo.svg',
+                                        width: 120, // smaller than container
+                                        height: 120,
+                                        fit: BoxFit.fill, // ✅ يملى الدائرة كلها
+                                        colorFilter: const ColorFilter.mode(
+                                          Color.fromARGB(255, 0, 0, 0),
+                                          BlendMode.srcIn,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                           ),
+
                           const SizedBox(height: 24),
+
+                          // 💬 Text + tagline
                           FadeTransition(
                             opacity: _fadeController,
                             child: Column(
@@ -173,6 +192,7 @@ class _LexAppState extends State<LexApp> with TickerProviderStateMixin {
                                     fontSize: 32,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
+                                    letterSpacing: 2,
                                   ),
                                 ),
                                 const SizedBox(height: 8),
@@ -194,6 +214,7 @@ class _LexAppState extends State<LexApp> with TickerProviderStateMixin {
                                   'Your Trusted Legal Partner',
                                   style: TextStyle(
                                     color: Color(0xFFCBD5E1),
+                                    fontSize: 14,
                                   ),
                                 ),
                               ],
@@ -204,46 +225,32 @@ class _LexAppState extends State<LexApp> with TickerProviderStateMixin {
                     ),
                   ),
 
-                  // Bottom loading and footer
+                  // ⏳ Loading bar + footer
                   FadeTransition(
                     opacity: _fadeController,
                     child: Column(
                       children: [
-                        if (loading) ...[
-                          Stack(
+                        if (loading)
+                          Column(
                             children: [
-                              Container(
-                                height: 4,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: Colors.white24,
-                                  borderRadius: BorderRadius.circular(4),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(4),
+                                child: const LinearProgressIndicator(
+                                  minHeight: 4,
+                                  backgroundColor: Colors.white24,
+                                  color:  Color(0xFFFFB703),
                                 ),
                               ),
-                              AnimatedContainer(
-                                duration: const Duration(seconds: 2),
-                                curve: Curves.easeInOut,
-                                margin: const EdgeInsets.only(left: 0),
-                                height: 4,
-                                width: 100,
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.transparent,
-                                      Color(0xFFFFB703),
-                                      Colors.transparent,
-                                    ],
-                                  ),
+                              const SizedBox(height: 12),
+                              const Text(
+                                'Loading...',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 14,
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 12),
-                          const Text(
-                            'Loading...',
-                            style: TextStyle(color: Colors.grey, fontSize: 14),
-                          ),
-                        ],
                         const SizedBox(height: 24),
                         const Text(
                           'Excellence in Legal Services',
@@ -260,34 +267,57 @@ class _LexAppState extends State<LexApp> with TickerProviderStateMixin {
               ),
             ),
 
-            // Decorative corners
-            Align(
-              alignment: Alignment.topRight,
-              child: Container(
+            // 💫 Decorative corners
+            const Positioned(
+              top: 0,
+              right: 0,
+              child: _CornerDecoration(
                 width: 120,
                 height: 120,
-                decoration: const BoxDecoration(
-                  color: Color(0x0DFFB703),
-                  borderRadius:
-                      BorderRadius.only(bottomLeft: Radius.circular(120)),
+                color: Color(0x0DFFB703),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(120),
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
+            const Positioned(
+              bottom: 0,
+              left: 0,
+              child: _CornerDecoration(
                 width: 120,
                 height: 120,
-                decoration: const BoxDecoration(
-                  color: Color(0x0DFFB703),
-                  borderRadius:
-                      BorderRadius.only(topRight: Radius.circular(120)),
+                color: Color(0x0DFFB703),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(120),
                 ),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _CornerDecoration extends StatelessWidget {
+  final double width;
+  final double height;
+  final Color color;
+  final BorderRadius borderRadius;
+
+  const _CornerDecoration({
+    required this.width,
+    required this.height,
+    required this.color,
+    required this.borderRadius,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(color: color, borderRadius: borderRadius),
     );
   }
 }
