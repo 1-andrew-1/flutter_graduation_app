@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_graduation_app/Screens/splash_screen/startup_screen.dart';
+import 'package:flutter_graduation_app/Screens/splash_screen/onboarding_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       locale: const Locale('en'),
       supportedLocales: const [
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LexSplashScreen(),
+      home: const OnboardingScreen(),
     );
   }
 }

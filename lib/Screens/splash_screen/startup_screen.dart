@@ -68,8 +68,8 @@ class _LexSplashScreenState extends State<LexSplashScreen>
             Positioned.fill(
               child: Opacity(
                 opacity: 0.2,
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80',
+                child: Image.asset(
+                  'assets/images/Backgound_startup.jpeg',
                   fit: BoxFit.cover,
                   filterQuality: FilterQuality.low, // ⚡️ Better performance
                 ),
@@ -145,8 +145,8 @@ class _LexSplashScreenState extends State<LexSplashScreen>
                                     decoration: const BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
-                                          Color(0xFFFFB703),
-                                          Color(0xFFFFA000)
+                                          Color.fromARGB(255, 133, 133, 110),
+                                          Color.fromARGB(255, 255, 255, 255)
                                         ],
                                         begin: Alignment.topLeft,
                                         end: Alignment.bottomRight,
@@ -154,7 +154,7 @@ class _LexSplashScreenState extends State<LexSplashScreen>
                                       shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black45,
+                                          color: Colors.black54,
                                           blurRadius: 20,
                                           spreadRadius: 2,
                                         )
@@ -163,14 +163,14 @@ class _LexSplashScreenState extends State<LexSplashScreen>
                                     child: Center(
                                       // 🎨 Separated SVG Logo
                                       child: SvgPicture.asset(
-                                        'assets/images/logo.svg',
+                                        'assets/images/app.svg',
                                         width: 120, // smaller than container
                                         height: 120,
                                         fit: BoxFit.fill, // ✅ يملى الدائرة كلها
-                                        colorFilter: const ColorFilter.mode(
-                                          Color.fromARGB(255, 0, 0, 0),
-                                          BlendMode.srcIn,
-                                        ),
+                                        // colorFilter: const ColorFilter.mode(
+                                        //   Color.fromARGB(255, 0, 0, 0),
+                                        //   BlendMode.srcIn,
+                                        // ),
                                       ),
                                     ),
                                   ),
@@ -238,7 +238,7 @@ class _LexSplashScreenState extends State<LexSplashScreen>
                                 child: const LinearProgressIndicator(
                                   minHeight: 4,
                                   backgroundColor: Colors.white24,
-                                  color:  Color(0xFFFFB703),
+                                  color: Color(0xFFFFB703),
                                 ),
                               ),
                               const SizedBox(height: 12),
