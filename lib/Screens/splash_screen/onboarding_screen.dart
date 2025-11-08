@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_graduation_app/style/app_text_styles.dart';
 import 'package:flutter_graduation_app/utils/navigation_helper.dart';
 import 'package:flutter_graduation_app/widgets/custom_button.dart';
+import 'package:flutter_graduation_app/widgets/lex_logo.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -18,18 +21,18 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   final List<Map<String, String>> slides = [
     {
-      "title": "Trust & Security",
-      "subtitle": "Verified lawyers. Secure communication and payment.",
+      "title": "slide1_title".tr(),
+      "subtitle": "slide1_subtitle".tr(),
       "image": "assets/images/img1-removebg-preview.png",
     },
     {
-      "title": "Verified Professionals",
-      "subtitle": "Every lawyer passes identity and guild verification.",
+      "title": "slide2_title".tr(),
+      "subtitle": "slide2_subtitle".tr(),
       "image": "assets/images/img2-removebg-preview.png",
     },
     {
-      "title": "Find the right lawyer for your case",
-      "subtitle": "Filter by specialty, location and ratings.",
+      "title": "slide3_title".tr(),
+      "subtitle": "slide3_subtitle".tr(),
       "image": "assets/images/img3-removebg-preview.png",
     },
   ];
@@ -73,40 +76,14 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.balance, color: Colors.teal, size: 22),
-                          SizedBox(width: 6),
-                          Text(
-                            "LEX",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 2),
-                      Text(
-                        "Lawyer Connect",
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
+                  const LexLogo(),
                   if (currentPage < slides.length - 1)
                     TextButton(
-                      onPressed: skip,
-                      child: const Text("Skip",
-                          style:
-                              TextStyle(color: Colors.black54, fontSize: 14)),
-                    ),
+                        onPressed: skip,
+                        child: Text(
+                          ('skip'.tr()),
+                          style: AppTextStyles.skip,
+                        )),
                 ],
               ),
             ),
@@ -136,29 +113,16 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                               const SizedBox(
                                 height: 50,
                               ),
-                              Text(
-                                slide["title"]!,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black87,
-                                  letterSpacing: 0.3,
-                                ),
-                              ),
+                              Text(slide["title"]!,
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyles.title),
                               const SizedBox(height: 12),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 30),
-                                child: Text(
-                                  slide["subtitle"]!,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 15.5,
-                                    color: Colors.black54,
-                                    height: 1.6,
-                                  ),
-                                ),
+                                child: Text(slide["subtitle"]!,
+                                    textAlign: TextAlign.center,
+                                    style: AppTextStyles.subtitle),
                               ),
                             ],
                           ),
@@ -217,8 +181,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                                   width: double.infinity,
                                   child: CustomButton(
                                     text: currentPage == slides.length - 1
-                                        ? "Get Started"
-                                        : "Next",
+                                        ? ('get_started'.tr())
+                                        : ('next'.tr()),
                                     onPressed: () {
                                       if (currentPage == slides.length - 1) {
                                         // TODO: Navigate to login or home

@@ -1,0 +1,26 @@
+{
+  "app_name": "LEX",
+  "tagline": "Your Trusted Legal Partner",
+  "loading": "Loading...",
+  "welcome": "Welcome to LEX",
+
+  "slide1_title": "Trust & Security",
+  "slide1_subtitle": "Verified lawyers. Secure communication and payment.",
+
+  "slide2_title": "Verified Professionals",
+  "slide2_subtitle": "Every lawyer passes identity and guild verification.",
+
+  "slide3_title": "Find the right lawyer for your case",
+  "slide3_subtitle": "Filter by specialty, location and ratings.",
+  "next": "Next",
+  "sign_in": "Sign In",
+  "get_started": "Get Started",
+  "skip": "Skip",
+  "sign_in_title": "Sign in to your account to continue",
+  "email_or_phone": "Email or phone",
+  "password": "Password",
+  "forgot_password": "Forgot password?",
+  "dont_have_account": "Don't have an account? ",
+  "sign_up": "Sign up"
+
+}
